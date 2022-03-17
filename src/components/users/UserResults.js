@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import Spinner from '../layout/Spinner'
+import UserItem from './UserItem'
 
 const UserResults = () => {
   const [users, setUsers] = useState([])
@@ -23,9 +25,7 @@ const UserResults = () => {
     setIsLoading(false)
   }
 
-  if (isLoading) {
-    return <h1>Loading...😂😁😀😀</h1>
-  } else {
+  if (!isLoading) {
     return (
       <div
         className='grid 
@@ -36,10 +36,13 @@ const UserResults = () => {
           md:grid-cols-2'
       >
         {users.map((user) => (
-          <h3>{user.login}</h3>
+          <UserItem key={user.id}  user={user}   />
+          // <h3>{user.login}</h3>
         ))}
       </div>
     )
+  } else {
+    return <Spinner />
   }
 }
 
