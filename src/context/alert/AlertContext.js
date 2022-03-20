@@ -24,6 +24,7 @@ export const AlertProvider = ({ children }) => {
     <AlertContext.Provider
       value={{
         alert: state,
+        setAlert,
       }}
     >
       {children}
