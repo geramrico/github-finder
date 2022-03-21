@@ -13,6 +13,12 @@ export const GithubProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(githubReducer, initialState)
 
+  // Originally here:
+  // State with useState 'Traditional way'
+  // - Functions to get or search users and repos
+  // set loading function (dispathed loading state as true)
+  // clearUsers functions to empty state
+
   return (
     <GithubContext.Provider
       value={{
