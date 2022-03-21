@@ -1,3 +1,21 @@
+# Github Finder
+
+This app helps you find Github users and to see their profile stats and latest 10 repositories. To date (march 2022) its one of the most complete React Apps I've built.
+
+[Live app here](https://github-finder-five-navy.vercel.app/)
+
+What I learned:
+- Use reducers and dispatch actions to better manage state.
+- Refactoring code moving it from the Context Provider to an 'Actions' file.
+- TailwindCSS and DaisyUI.
+
+Challenges:
+- Keeping the file structure clean and maintainable.
+- Understanding how multiple components interact with each other and keeping track of it.
+
+To run it locally, read the 'Create React App' section below 👇
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
