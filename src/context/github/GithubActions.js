@@ -36,6 +36,8 @@ export const searchUsers = async (query) => {
 
 // Get user and repos
 // MULTIPLE FETCH WITH Promise.all([array of requests])
+// NICE TO HAVE
+
 // export const getUserAndRepos = async (login) => {
 //   const [user, repos] = await Promise.all([github.get(`/users/${login}`), github.get(`/users/${login}/repos`)])
 
