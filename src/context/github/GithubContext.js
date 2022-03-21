@@ -13,12 +13,13 @@ export const GithubProvider = ({ children }) => {
 
   const initialState = {
     users: [],
+    user: {},
     isLoading: false,
   }
 
   const [state, dispatch] = useReducer(githubReducer, initialState)
 
-  const URL = `${GITHUB_URL}/search/users`
+  const URL = `${GITHUB_URL}`
 
   // Get initial users (Testing purposes - Not in use)
   const fetchUsers = async () => {
@@ -40,6 +41,7 @@ export const GithubProvider = ({ children }) => {
     // setIsLoading(false)
   }
 
+  // Serach Users
   const searchUsers = async (query) => {
     setLoading()
     // Check URLSearchParams for the query value
@@ -47,7 +49,7 @@ export const GithubProvider = ({ children }) => {
       q: query,
     })
 
-    const response = await fetch(`${URL}?${params}`, {
+    const response = await fetch(`${URL}/search/users?${params}`, {
       headers: {
         Authorization: `token ${GITHUB_TOKEN}`,
       },
@@ -60,6 +62,27 @@ export const GithubProvider = ({ children }) => {
     })
   }
 
+  // Get a single User
+  const getUser = async (login) => {
+    setLoading()
+    const response = await fetch(`${URL}/users/${login}`, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+      },
+    })
+
+    if (response.status === 404) {
+      window.location = '/notfound'
+    } else {
+      const data = await response.json()
+
+      dispatch({
+        type: 'GET_USER',
+        payload: data,
+      })
+    }
+  }
+
   const clearUsers = () => dispatch({ type: 'CLEAR_USERS' })
 
   //Sets loading to true
@@ -70,8 +93,10 @@ export const GithubProvider = ({ children }) => {
       value={{
         users: state.users, // added the state.users part with the reducers
         isLoading: state.isLoading,
+        user: state.user,
         // fetchUsers, No longer in use
         searchUsers,
+        getUser,
         clearUsers,
       }}
     >
