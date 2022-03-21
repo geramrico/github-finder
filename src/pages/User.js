@@ -6,13 +6,17 @@ import { Link } from 'react-router-dom'
 import Spinner from '../components/layout/Spinner'
 import { useParams } from 'react-router-dom'
 
+import RepoList from '../components/repos/RepoList'
+
 const User = () => {
-  const { getUser, user, loading } = useContext(GithubContext)
+  const { getUser, user, loading, getUserRepos, repos } = useContext(GithubContext)
 
   const params = useParams()
 
   useEffect(() => {
     getUser(params.login)
+    getUserRepos(params.login)
+    // es-lint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const { name, type, avatar_url, location, bio, blog, twitter_username, login, html_url, followers, following, public_repos, public_gists, hireable } = user
@@ -128,6 +132,9 @@ const User = () => {
             <div className='stat-value pr-5 text-3xl md:text-4xl'>{public_gists}</div>
           </div>
         </div>
+
+        {/* REPO LIST */}
+        <RepoList repos={repos} />
       </div>
     </>
   )

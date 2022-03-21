@@ -14,6 +14,7 @@ export const GithubProvider = ({ children }) => {
   const initialState = {
     users: [],
     user: {},
+    repos: [],
     isLoading: false,
   }
 
@@ -83,6 +84,32 @@ export const GithubProvider = ({ children }) => {
     }
   }
 
+  // Get user' repos
+  const getUserRepos = async (login) => {
+    setLoading()
+
+    const params = new URLSearchParams({
+      sort: 'created',
+      per_page: 10,
+    })
+
+    const response = await fetch(`${URL}/users/${login}/repos?${params}`, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+      },
+    })
+
+    if (response.status === 404) {
+      window.location = '/notfound'
+    } else {
+      const data = await response.json()
+      dispatch({
+        type: 'GET_REPOS',
+        payload: data,
+      })
+    }
+  }
+
   const clearUsers = () => dispatch({ type: 'CLEAR_USERS' })
 
   //Sets loading to true
@@ -94,9 +121,11 @@ export const GithubProvider = ({ children }) => {
         users: state.users, // added the state.users part with the reducers
         isLoading: state.isLoading,
         user: state.user,
+        repos: state.repos,
         // fetchUsers, No longer in use
         searchUsers,
         getUser,
+        getUserRepos,
         clearUsers,
       }}
     >
